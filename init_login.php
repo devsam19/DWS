@@ -104,10 +104,10 @@
 	<p align="center" class="heading">Digital Warehousing System</p>
 	<p align="center" class="smallHead">One stop solution to warehousing problems and Inventory Management</p>
 	<div class="bt">
-		<button class="log_bt">Client Login</button>
+		<button class="log_bt" id="client">Client Login</button>
 	</div>
 	<div class="bt">
-		<button class="log_bt">Admin Login</button>	
+		<button class="log_bt" id="admin">Admin Login</button>	
 	</div>
 	<br/>
 	<br/>
@@ -115,16 +115,19 @@
 	
 		<a href="www.google.com" style="color: #FEFEFE;">Create a New Account</a>
 
-	</div>
-			
-	
-	
-	
-	
+	</div>	
 	
 </div>
 
 </div>
+<script type="text/javascript">
+	document.getElementById("client").addEventListener("click",function(){
+			document.location.href='login.php';
+	});
 
+	document.getElementById("admin").addEventListener("click",function(){
+			document.location.href='admin_login.php';
+	});
+</script>
 </body>
 </html>
