@@ -2,9 +2,10 @@
 <html>
 <head>
 	<title>Admin_Main</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="stylesheet" type="text/css" href="menu.css">
-
+	<link rel="stylesheet" type="text/css" href="pie.css">
 	<style type="text/css">
 		
 
@@ -170,6 +171,26 @@ margin-left: calc(100% - 50px);
 } 
 
 
+.mid{
+	width: 30%;
+	margin: 0;
+	color: #FEFEFE;
+	font-family: "ROBOTO", sans-serif;
+	font-size: 20px;
+
+}
+
+.primarytext{
+			color: #212121;
+			font-family: "ROBOTO", sans-serif;
+			font-size: 20px;
+		}
+
+
+
+
+
+
 	</style>
 
 
@@ -208,9 +229,98 @@ margin-left: calc(100% - 50px);
       </ul>
    </nav>
    <div id="page-content">
-      <p>Page Content</p>
-   </div>
+      <div class="mid">
+      	
+      	<main>
+  
+  <section>
+    <div class="pieID pie">
+      
+    </div>
+    <ul class="pieID legend">
+      <li>
+        <em>Allocated</em>
+        <span>718</span>
+      </li>
+      <li>
+        <em>Remaining</em>
+        <span>531</span>
+      </li>
+      <li>
+        <em>Cats</em>
+        <span>868</span>
+      </li>
+      <li>
+        <em>Slugs</em>
+        <span>344</span>
+      </li>
+      
+    </ul>
+  </section>
+  
+</main>
 
+
+      </div>
+   </div>
+<script type="text/javascript">
+	function sliceSize(dataNum, dataTotal) {
+  return (dataNum / dataTotal) * 360;
+}
+function addSlice(sliceSize, pieElement, offset, sliceID, color) {
+  $(pieElement).append("<div class='slice "+sliceID+"'><span></span></div>");
+  var offset = offset - 1;
+  var sizeRotation = -179 + sliceSize;
+  $("."+sliceID).css({
+    "transform": "rotate("+offset+"deg) translate3d(0,0,0)"
+  });
+  $("."+sliceID+" span").css({
+    "transform"       : "rotate("+sizeRotation+"deg) translate3d(0,0,0)",
+    "background-color": color
+  });
+}
+function iterateSlices(sliceSize, pieElement, offset, dataCount, sliceCount, color) {
+  var sliceID = "s"+dataCount+"-"+sliceCount;
+  var maxSize = 179;
+  if(sliceSize<=maxSize) {
+    addSlice(sliceSize, pieElement, offset, sliceID, color);
+  } else {
+    addSlice(maxSize, pieElement, offset, sliceID, color);
+    iterateSlices(sliceSize-maxSize, pieElement, offset+maxSize, dataCount, sliceCount+1, color);
+  }
+}
+function createPie(dataElement, pieElement) {
+  var listData = [];
+  $(dataElement+" span").each(function() {
+    listData.push(Number($(this).html()));
+  });
+  var listTotal = 0;
+  for(var i=0; i<listData.length; i++) {
+    listTotal += listData[i];
+  }
+  var offset = 0;
+  var color = [
+    "cornflowerblue", 
+    "olivedrab", 
+    "orange", 
+    "tomato", 
+    "crimson", 
+    "purple", 
+    "turquoise", 
+    "forestgreen", 
+    "navy", 
+    "gray"
+  ];
+  for(var i=0; i<listData.length; i++) {
+    var size = sliceSize(listData[i], listTotal);
+    iterateSlices(size, pieElement, offset, i, 0, color[i]);
+    $(dataElement+" li:nth-child("+(i+1)+")").css("border-color", color[i]);
+    offset += size;
+  }
+}
+createPie(".pieID.legend", ".pieID.pie");
+
+</script>
 
 
 </body>
